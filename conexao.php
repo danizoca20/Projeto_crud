@@ -1,13 +1,21 @@
+
 <?php
 $host = "localhost";
 $port = "5432";
-$dbname = "projeto_crud";
-$user = "postgres";
-$password = "postgres";
+$banco = "projeto_crud";
+$usuario = "postgres";
+$senha = "postgres";
 
-$conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$password");
+try {
+    $pdo = new PDO(
+        "pgsql:host=$host;port=$port;dbname=$banco",
+        $usuario,
+        $senha
+    );
 
-if (!$conn) {
-    die("Erro ao conectar ao banco de dados.");
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+} catch (PDOException $e) {
+    die("Erro ao conectar ao banco de dados: " . htmlspecialchars($e->getMessage()));
 }
 ?>
